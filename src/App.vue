@@ -1,7 +1,14 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">Strona stratowa</router-link>
+    |
+    <router-link to="/admin/leaders">Zarządzaj bazą przodowników</router-link>
+    |
+    <router-link to="/admin/trails">Zarządzaj bazą odcinków</router-link>
+    |
+    <router-link to="/admin/waypoints">Zarządzaj bazą punktów na trasie</router-link>
+    |
+    <router-link to="/leader/trips">Przeglądaj zgłoszone wycieczki</router-link>
   </div>
   <router-view/>
 </template>
