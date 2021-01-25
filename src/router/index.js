@@ -1,4 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import adminRoutes from '@/router/admin';
+import leaderRoutes from '@/router/leader';
 import Home from '../views/Home.vue';
 
 const routes = [
@@ -7,28 +9,7 @@ const routes = [
     name: 'Home',
     component: Home,
   },
-  {
-    path: '/admin/leaders',
-    name: 'LeadersAdmin',
-    component: () => import('../views/admin/LeadersAdmin'),
-  },
-  {
-    path: '/admin/Trails',
-    name: 'TrailsAdmin',
-    component: () => import('../views/admin/TrailsAdmin'),
-  },
-  {
-    path: '/admin/waypoints',
-    name: 'WaypointAdmin',
-    component: () => import('../views/admin/WaypointsAdmin'),
-  },
-  {
-    path: '/leader/trips',
-    name: 'WaitingTrips',
-    component: () => import('../views/leader/WaitingTrips'),
-  },
-
-];
+].concat(adminRoutes, leaderRoutes);
 
 const router = createRouter({
   history: createWebHashHistory(),
