@@ -5,7 +5,7 @@
     </h1>
     <div class="content">
       <button class="add" v-on:click="addTrail">Dodaj</button>
-      <div class="trails_list">
+      <div class="leaders_list">
         <div class="list_header">
           <div class="start_point">
             Punkt startowy
@@ -109,7 +109,7 @@ export default {
   background-color: #d6d6d6;
 }
 
-.trails_list {
+.leaders_list {
   margin: 0.3rem 0;
   border: solid black 2px;
 }
