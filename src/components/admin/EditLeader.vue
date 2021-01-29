@@ -46,7 +46,7 @@
         <label>
           <select multiple v-model="permissions">
             <option v-for="category in categories" :key="category.id">
-              {{ category.id }}. {{ category.cat_name }}
+             {{ category.cat_name }}
             </option>
           </select>
         </label>
@@ -118,6 +118,9 @@ export default {
               break;
             case 404:
               this.error_message = 'Przodownik o podanym id nie istnieje';
+              break;
+            case 409:
+              this.error_message = 'Nie można zmienić przodownikowi uprawnień';
               break;
             default:
               this.error_message = 'Wystąpił nieoczekiwany błąd';
