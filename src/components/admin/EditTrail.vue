@@ -92,7 +92,7 @@ export default {
         this.incorrectInput = true;
         return false;
       }
-      if ((!dataObject.points && dataObject.points!==0) || !dataObject.area){
+      if ((!dataObject.points && dataObject.points !== 0) || !dataObject.area) {
         this.error_message = 'Proszę uzupełnić wszystkie pola';
         this.incorrectInput = true;
         return false;

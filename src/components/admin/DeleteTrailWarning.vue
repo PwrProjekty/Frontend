@@ -127,4 +127,8 @@ label {
   display: flex;
   justify-content: center;
 }
+
+.message {
+  margin: 0.5rem auto;
+}
 </style>

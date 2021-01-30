@@ -4,9 +4,9 @@ const area = '1. Tatry Wysokie - T.01';
 const points = 10;
 
 module.exports = {
-  'Add trail without correct data - Test'(browser) {
+  'Add trail without correct data - Test': function (browser) {
     browser
-      .url('http://localhost:8080/')
+      .url('http://localhost:8080/Frontend/')
       .waitForElementVisible('#nav_trails_admin')
       .click('#nav_trails_admin')
       .waitForElementVisible('.add')
@@ -19,9 +19,9 @@ module.exports = {
     browser.end();
   },
 
-  'Add trail with negative point value - Test'(browser) {
+  'Add trail with negative point value - Test': function (browser) {
     browser
-      .url('http://localhost:8080/')
+      .url('http://localhost:8080/Frontend/')
       .waitForElementVisible('#nav_trails_admin')
       .click('#nav_trails_admin')
       .waitForElementVisible('.trail_row')
@@ -48,9 +48,9 @@ module.exports = {
     browser.end();
   },
 
-  'Add trail with correct data - Test'(browser) {
+  'Add trail with correct data - Test': function (browser) {
     browser
-      .url('http://localhost:8080/')
+      .url('http://localhost:8080/Frontend/')
       .waitForElementVisible('#nav_trails_admin')
       .click('#nav_trails_admin')
       .waitForElementVisible('.trail_row')
@@ -67,5 +67,5 @@ module.exports = {
       .waitForElementVisible('.confirm')
       .click('.confirm')
       .end();
-  }
+  },
 };
