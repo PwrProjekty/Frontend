@@ -1,14 +1,14 @@
 <template>
   <div id="nav">
-    <router-link to="/">Strona startowa</router-link>
+    <router-link to="/">Strona stratowa</router-link>
     |
-    <router-link to="/admin/leaders">Zarządzaj bazą przodowników</router-link>
+    <router-link to="/admin/leaders" id="nav_leaders_admin">Zarządzaj bazą przodowników</router-link>
     |
-    <router-link to="/admin/trails">Zarządzaj bazą odcinków</router-link>
+    <router-link to="/admin/trails" id="nav_trails_admin">Zarządzaj bazą odcinków</router-link>
     |
-    <router-link to="/admin/waypoints">Zarządzaj bazą punktów na trasie</router-link>
+    <router-link to="/admin/waypoints" id="nav_points_admin">Zarządzaj bazą punktów na trasie</router-link>
     |
-    <router-link to="/leader/trips">Przeglądaj zgłoszone wycieczki</router-link>
+    <router-link to="/leader/trips" id="nav_trips_admin">Przeglądaj zgłoszone wycieczki</router-link>
   </div>
   <router-view/>
 </template>

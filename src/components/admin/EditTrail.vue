@@ -75,14 +75,37 @@ export default {
     cancel() {
       this.$emit('cancel');
     },
-    async confirm() {
-      const editedTrail = JSON.stringify({
-        points: parseInt(this.points, 10),
-        is_active: this.is_active,
-        area: parseInt(this.curr_area.split('.')[0], 10),
-      });
-      console.log(editedTrail);
-      await axios.put(config.apiPath.concat(`/trail/${this.id}`), editedTrail, {
+    confirm() {
+      const editedTrail = this.getDataObject();
+      if (editedTrail) this.sendRequest(JSON.stringify(editedTrail));
+    },
+    getDataObject() {
+      let dataObject = {};
+      try {
+        dataObject = {
+          points: parseInt(this.points, 10),
+          area: parseInt(this.curr_area.split('.')[0], 10),
+          is_active: this.is_active,
+        };
+      } catch {
+        this.error_message = 'Proszę uzupełnić wszystkie pola';
+        this.incorrectInput = true;
+        return false;
+      }
+      if ((!dataObject.points && dataObject.points!==0) || !dataObject.area){
+        this.error_message = 'Proszę uzupełnić wszystkie pola';
+        this.incorrectInput = true;
+        return false;
+      }
+      if (dataObject.points <= 0) {
+        this.error_message = 'Punkty powinny być liczbą dodatnią';
+        this.incorrectInput = true;
+        return false;
+      }
+      return dataObject;
+    },
+    sendRequest(editedTrail) {
+      axios.put(config.apiPath.concat(`/trail/${this.id}`), editedTrail, {
         headers: {
           'Content-Type': 'application/json',
         },

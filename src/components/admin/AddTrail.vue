@@ -8,7 +8,7 @@
         <div class="label">
           Punkt startowy:
         </div>
-        <select v-model="curr_start">
+        <select v-model="curr_start" id="add_trail_start">
           <option v-for="waypoint in waypoints" :key="waypoint.id">
             {{ waypoint.id }}.
             {{ waypoint.coordinate_x }}/{{ waypoint.coordinate_y }} {{ waypoint.waypoint_name }}
@@ -19,7 +19,7 @@
         <div class="label">
           Punkt końcowy:
         </div>
-        <select v-model="curr_end">
+        <select v-model="curr_end" id="add_trail_end">
           <option v-for="waypoint in waypoints" :key="waypoint.id">
             {{ waypoint.id }}.
             {{ waypoint.coordinate_x }}/{{ waypoint.coordinate_y }} {{ waypoint.waypoint_name }}
@@ -30,23 +30,23 @@
         <div class="label">
           Punkty:
         </div>
-        <input type="number" v-model="points">
+        <input type="number" v-model="points" id="add_trail_points">
       </div>
       <div class="input_row">
         <div class="label">
           Obszar
         </div>
-        <select v-model="curr_area">
+        <select v-model="curr_area" id="add_trail_area">
           <option v-for="area in areas" :key="area.code">
             {{ area.id }}.
             {{ area.area_name }} - {{ area.code }}
           </option>
         </select>
       </div>
-        <label>
-          <input type="checkbox" v-model="is_active">
-          Trasa czynna
-        </label>
+      <label>
+        <input type="checkbox" v-model="is_active" id="add_trail_is_active">
+        Trasa czynna
+      </label>
       <div class="options">
         <button class="cancel" :onclick="cancel">Anuluj</button>
         <button class="confirm" :onclick="confirm">Potwierdź</button>
@@ -89,15 +89,40 @@ export default {
     cancel() {
       this.$emit('cancel');
     },
-    async confirm() {
-      const newTrail = JSON.stringify({
-        points: parseInt(this.points, 10),
-        start: parseInt(this.curr_start.split('.')[0], 10),
-        end: parseInt(this.curr_end.split('.')[0], 10),
-        area: parseInt(this.curr_area.split('.')[0], 10),
-        is_active: this.is_active,
-      });
-      await axios.post(config.apiPath.concat('/trail'), newTrail, {
+    confirm() {
+      const newTrail = this.getDataObject();
+      if (newTrail) this.sendRequest(JSON.stringify(newTrail));
+    },
+    getDataObject() {
+      let dataObject = {};
+      try {
+        dataObject = {
+          points: parseInt(this.points, 10),
+          start: parseInt(this.curr_start.split('.')[0], 10),
+          end: parseInt(this.curr_end.split('.')[0], 10),
+          area: parseInt(this.curr_area.split('.')[0], 10),
+          is_active: this.is_active,
+        };
+      } catch {
+        this.error_message = 'Proszę uzupełnić wszystkie pola';
+        this.incorrectInput = true;
+        return false;
+      }
+      if ((!dataObject.points && dataObject.points !== 0) || !dataObject.start
+        || !dataObject.end || !dataObject.area) {
+        this.error_message = 'Proszę uzupełnić wszystkie pola';
+        this.incorrectInput = true;
+        return false;
+      }
+      if (dataObject.points <= 0) {
+        this.error_message = 'Punkty powinny być liczbą dodatnią';
+        this.incorrectInput = true;
+        return false;
+      }
+      return dataObject;
+    },
+    sendRequest(newTrail) {
+      axios.post(config.apiPath.concat('/trail'), newTrail, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -155,11 +180,12 @@ button {
   padding: 0.7rem 0 0 0;
 }
 
-select{
+select {
   width: 30ch;
 }
+
 .input_row > input {
-  width:  29ch;
+  width: 29ch;
 }
 
 label {

@@ -1,5 +1,5 @@
 <template>
-  <div class="trail_row" :class="row_style">
+  <div class="trail_row" :class="row_style" :id="id">
     <div class="start_point">
       {{ start_x }}/{{ start_y }}<br>
       {{ start_name }}
@@ -53,6 +53,14 @@ export default {
       type: Array,
       required: true,
     },
+    index: {
+      type: Number,
+      required: true,
+    },
+    last: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
@@ -69,6 +77,17 @@ export default {
       showDeleteWindow: false,
       showEditWindow: false,
     };
+  },
+  computed: {
+    id() {
+      let id = 'trail_item_';
+      if (this.last) {
+        id += 'last';
+      } else {
+        id += this.index;
+      }
+      return id;
+    },
   },
   methods: {
     update() {

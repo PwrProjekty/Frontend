@@ -60,13 +60,36 @@ export default {
       this.$emit('cancel');
     },
     async confirm() {
-      const newWaypoint = JSON.stringify({
+      const newWaypoint = this.getDataObject();
+      if (newWaypoint) this.sendRequest(JSON.stringify(newWaypoint));
+    },
+    getDataObject() {
+      const dataObject = {
         x: parseInt(this.x, 10),
         y: parseInt(this.y, 10),
         name: this.name,
         asl: parseInt(this.asl, 10),
-      });
-      await axios.post(config.apiPath.concat('/waypoint'), newWaypoint, {
+      };
+      if ((!dataObject.x && dataObject.x !== 0) || (!dataObject.y && dataObject.y !== 0)
+        || (!dataObject.asl && dataObject.asl !== 0)) {
+        this.error_message = 'Proszę uzupełnić wszystkie pola';
+        this.incorrectInput = true;
+        return false;
+      }
+      if (dataObject.name.length === 0) {
+        this.error_message = 'Proszę podać nazwę';
+        this.incorrectInput = true;
+        return false;
+      }
+      if (dataObject.asl <= 0) {
+        this.error_message = 'Wyskokość nad poziom morza musi być wartością dodatnią';
+        this.incorrectInput = true;
+        return false;
+      }
+      return dataObject;
+    },
+    sendRequest(newWaypoint) {
+      axios.post(config.apiPath.concat('/waypoint'), newWaypoint, {
         headers: {
           'Content-Type': 'application/json',
         },

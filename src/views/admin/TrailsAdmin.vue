@@ -27,14 +27,15 @@
           </div>
         </div>
         <trail-item v-for="(item, index) in results" :item="item"
-                       :row_style="index%2===0?'even':'odd'"
-                       :key="`${item.id}${item.start_name}${item.end_name}
+                    :row_style="index%2===0?'even':'odd'"
+                    :key="`${item.id}${item.start_name}${item.end_name}
                        ${item.points}${item.area_id}${item.is_active}`"
-                       @reload="getTrails" :areas="areas"/>
+                    @reload="getTrails" :areas="areas"
+                    :index="index" :last="index===results.length-1"/>
       </div>
       <AddTrail class="add_window"
-                   v-if="showAddWindow" @cancel="showAddWindow = false"
-                   @confirm="confirmAdd" :areas="areas" :waypoints="waypoints"/>
+                v-if="showAddWindow" @cancel="showAddWindow = false"
+                @confirm="confirmAdd" :areas="areas" :waypoints="waypoints"/>
     </div>
   </div>
 </template>
