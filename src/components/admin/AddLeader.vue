@@ -10,7 +10,7 @@
           Imię:
         </div>
         <label>
-          <input type="text" v-model="name"/>
+          <input type="text" v-model="name" required/>
         </label>
       </div>
       <div class="input_row">
@@ -18,7 +18,7 @@
           Nazwisko:
         </div>
         <label>
-          <input type="text" v-model="surname"/>
+          <input type="text" v-model="surname" required/>
         </label>
       </div>
       <div class="input_row">
@@ -26,7 +26,7 @@
           Email:
         </div>
         <label>
-          <input type="email" v-model="email"/>
+          <input type="email" v-model="email" required/>
         </label>
       </div>
       <div class="input_row">
@@ -34,7 +34,7 @@
           Hasło:
         </div>
         <label>
-          <input type="password" v-model="password"/>
+          <input type="password" v-model="password" required/>
         </label>
       </div>
       <div class="input_row">
@@ -45,18 +45,6 @@
           <input type="date" v-model="birth_date"/>
         </label>
       </div>
-  <!--    <div class="input_row">
-        <div class="label">
-          Uprawnienia:
-        </div>
-        <label>
-          <select multiple v-model="permissions">
-            <option v-for="category in categories" :key="category.id">
-              {{ category.id }}. {{ category.cat_name }}
-            </option>
-          </select>
-        </label>
-      </div>-->
       <div class="options">
         <button class="cancel" :onclick="cancel">Anuluj</button>
         <button class="confirm" :onclick="confirm">Potwierdź</button>
@@ -96,6 +84,10 @@ export default {
       this.$emit('cancel');
     },
     async confirm() {
+      if (!this.validateData()) {
+        this.incorrectInput = true;
+        return;
+      }
       const newLeader = JSON.stringify({
         name: this.name,
         surname: this.surname,
@@ -116,11 +108,26 @@ export default {
             case 400:
               this.error_message = 'Wprowadzono błędne dane';
               break;
+            case 409:
+              this.error_message = 'Podany email jest zajęty';
+              break;
             default:
               this.error_message = 'Wystąpił nieoczekiwany błąd';
           }
           this.incorrectInput = true;
         });
+    },
+    validateData() {
+      this.error_message = '';
+      if (this.name === '' || this.surname === '' || this.email === '') {
+        this.error_message = 'Musisz wypełnić wszystkie pola.';
+        return false;
+      }
+      if (this.password.length < 8) {
+        this.error_message += 'Hasło musi mieć co najmniej 8 znaków.';
+        return false;
+      }
+      return true;
     },
   },
 };
