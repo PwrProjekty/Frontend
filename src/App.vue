@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <router-link to="/">Strona stratowa</router-link>
+    <router-link to="/">Strona startowa</router-link>
     |
     <router-link to="/admin/leaders">Zarządzaj bazą przodowników</router-link>
     |

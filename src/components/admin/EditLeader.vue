@@ -128,6 +128,9 @@ export default {
             case 409:
               this.error_message = 'Podany email jest zajęty.';
               break;
+            case 409:
+              this.error_message = 'Nie można zmienić przodownikowi uprawnień';
+              break;
             default:
               this.error_message = 'Wystąpił nieoczekiwany błąd.';
           }
