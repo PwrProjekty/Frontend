@@ -42,7 +42,11 @@
           <div class="description">
             {{ confirmation.description }}
           </div>
-          <div class="photos"></div>
+          <div class="photos">
+            <div v-for="photo in confirmation.photos" class="photo" :key="photo">
+              <img :src="api_path + photo" alt="Zdjęcie potwierdzające"/>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -62,6 +66,7 @@
 <script>
 import WaitingTripDecision from '@/components/leader/WaitingTripDecision.vue';
 import MessagesInTopic from '@/components/Message/MessagesInTopic.vue';
+import config from '@/config';
 
 export default {
   name: 'WaitingTripDetails',
@@ -88,6 +93,7 @@ export default {
       confirm_window: false,
       reject_window: false,
       message_window: false,
+      api_path: config.apiPath,
     };
   },
   methods: {
@@ -122,8 +128,9 @@ export default {
 .waiting_trip_details {
   min-width: 400px;
   width: 60%;
+  height: 80%;
   background-color: white;
-  padding: 4rem;
+  padding: 1rem;
   border-radius: 10px;
   border: black solid 1px;
   color: black;
@@ -149,6 +156,8 @@ export default {
 .confirmations {
   margin: 0.3rem 0;
   border: solid black 2px;
+  overflow-y: scroll;
+  height: 75%;
 }
 
 .even {
@@ -165,7 +174,11 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 0.5rem 0;
+  margin: 0;
+}
+.conf{
+  border-top: 2px black solid;
+  border-bottom: 2px black solid;
 }
 
 .options {
@@ -192,5 +205,27 @@ export default {
   left: 50%;
   top: 5%;
   transform: translate(-50%);
+}
+
+.wrap_content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.photos {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 15px;
+}
+
+.photo {
+  width: 30%;
+  margin: auto;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

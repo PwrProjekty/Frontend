@@ -21,6 +21,8 @@
                            :key="item.id+item.status"
                            @reload="getWaitingTrips"/>
       </div>
+      <img v-else-if="waiting"
+           src="../../assets/BitterEarnestBeardeddragon-small.gif" height="636" width="630"/>
       <h2 v-else>
         Brak zgłoszonych wycieczek oczekujących na zatwierdzenie
       </h2>
@@ -41,6 +43,7 @@ export default {
   data() {
     return {
       results: [],
+      waiting: true,
     };
   },
   methods: {
@@ -49,6 +52,7 @@ export default {
       axios.get(config.apiPath.concat('/trips/waiting/2'))
         .then((response) => {
           this.results = response.data.json_list;
+          this.waiting = false;
         })
         .catch((error) => {
           console.log(error);
@@ -91,4 +95,9 @@ export default {
   border-radius: 5px;
 }
 
+img {
+  width: 4rem;
+  height: 4rem;
+  margin: auto;
+}
 </style>

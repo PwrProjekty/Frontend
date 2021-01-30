@@ -12,7 +12,7 @@
       </div>
       <div class="input_row">
         <div class="label">
-          Wyspokość NPM:
+          Wysokość NPM:
         </div>
         <input type="number" v-model="asl">
       </div>
@@ -54,14 +54,37 @@ export default {
     cancel() {
       this.$emit('cancel');
     },
-    async confirm() {
-      const editedWaypoint = JSON.stringify({
-        x: this.x - 0,
-        y: this.y - 0,
+    confirm() {
+      const editedWaypoint = this.getDataObject();
+      if (editedWaypoint) this.sendRequest(JSON.stringify(editedWaypoint));
+    },
+    getDataObject() {
+      const dataObject = {
+        x: parseInt(this.x, 10),
+        y: parseInt(this.y, 10),
         name: this.name,
-        asl: this.asl - 0,
-      });
-      await axios.put(config.apiPath.concat(`/waypoint/${this.id}`), editedWaypoint, {
+        asl: parseInt(this.asl, 10),
+      };
+      if ((!dataObject.x && dataObject.x !== 0) || (!dataObject.y && dataObject.y !== 0)
+        || (!dataObject.asl && dataObject.asl !== 0)) {
+        this.error_message = 'Proszę uzupełnić wszystkie pola';
+        this.incorrectInput = true;
+        return false;
+      }
+      if (dataObject.asl <= 0) {
+        this.error_message = 'Wysokość nad poziom morza musi być wartością dodatnią';
+        this.incorrectInput = true;
+        return false;
+      }
+      if (dataObject.name.length === 0) {
+        this.error_message = 'Proszę podać nazwę';
+        this.incorrectInput = true;
+        return false;
+      }
+      return dataObject;
+    },
+    sendRequest(editedWaypoint) {
+      axios.put(config.apiPath.concat(`/waypoint/${this.id}`), editedWaypoint, {
         headers: {
           'Content-Type': 'application/json',
         },
