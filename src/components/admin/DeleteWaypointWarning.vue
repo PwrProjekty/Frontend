@@ -114,4 +114,8 @@ button {
   color: red;
   padding: 0.7rem 0 0 0;
 }
+
+.message {
+  margin: 0.5rem auto;
+}
 </style>
