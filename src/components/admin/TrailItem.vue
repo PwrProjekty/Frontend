@@ -12,7 +12,7 @@
       {{ points }}
     </div>
     <div class="active">
-      {{ is_active }}
+      {{ is_active_text }}
     </div>
     <div class="area">
       {{ area_name }} {{ area_code }}
@@ -87,6 +87,9 @@ export default {
         id += this.index;
       }
       return id;
+    },
+    is_active_text() {
+      return this.is_active ? 'Tak' : 'Nie';
     },
   },
   methods: {

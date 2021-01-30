@@ -77,7 +77,7 @@ export default {
 }
 
 .message {
-  margin: 0.5rem;
+  margin: 0.5rem auto;
 }
 
 button {
